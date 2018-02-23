@@ -58,6 +58,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tcViewSubmenu = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.dgvViewCustomer = new System.Windows.Forms.DataGridView();
             this.cbViewCustomer = new System.Windows.Forms.ComboBox();
             this.lbViewSelectCustomer = new System.Windows.Forms.Label();
             this.tabPage8 = new System.Windows.Forms.TabPage();
@@ -102,7 +103,6 @@
             this.tabPage12 = new System.Windows.Forms.TabPage();
             this.cbDeleteEmployee = new System.Windows.Forms.ComboBox();
             this.lbDeleteEmployeeSelectEmployee = new System.Windows.Forms.Label();
-            this.dgvViewCustomer = new System.Windows.Forms.DataGridView();
             this.tcMenu.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tcAddSubmenu.SuspendLayout();
@@ -111,6 +111,7 @@
             this.tabPage2.SuspendLayout();
             this.tcViewSubmenu.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvViewCustomer)).BeginInit();
             this.tabPage8.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tcModifySubmenu.SuspendLayout();
@@ -122,7 +123,6 @@
             this.tcDeleteSubmenu.SuspendLayout();
             this.tabPage11.SuspendLayout();
             this.tabPage12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvViewCustomer)).BeginInit();
             this.SuspendLayout();
             // 
             // tcMenu
@@ -351,7 +351,6 @@
             this.lbEmployeeDateOfBirth.Size = new System.Drawing.Size(69, 13);
             this.lbEmployeeDateOfBirth.TabIndex = 3;
             this.lbEmployeeDateOfBirth.Text = "Date of Birth:";
-            this.lbEmployeeDateOfBirth.Click += new System.EventHandler(this.lbEmployeeDateOfBirth_Click);
             // 
             // lbEmployeeAddress
             // 
@@ -414,10 +413,21 @@
             this.tabPage7.Text = "Customer";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // dgvViewCustomer
+            // 
+            this.dgvViewCustomer.AllowUserToAddRows = false;
+            this.dgvViewCustomer.AllowUserToDeleteRows = false;
+            this.dgvViewCustomer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvViewCustomer.Location = new System.Drawing.Point(3, 166);
+            this.dgvViewCustomer.Name = "dgvViewCustomer";
+            this.dgvViewCustomer.ReadOnly = true;
+            this.dgvViewCustomer.Size = new System.Drawing.Size(648, 113);
+            this.dgvViewCustomer.TabIndex = 3;
+            // 
             // cbViewCustomer
             // 
             this.cbViewCustomer.FormattingEnabled = true;
-            this.cbViewCustomer.Location = new System.Drawing.Point(148, 34);
+            this.cbViewCustomer.Location = new System.Drawing.Point(187, 99);
             this.cbViewCustomer.Name = "cbViewCustomer";
             this.cbViewCustomer.Size = new System.Drawing.Size(121, 21);
             this.cbViewCustomer.TabIndex = 1;
@@ -470,7 +480,6 @@
             this.lbViewSelectEmployee.Size = new System.Drawing.Size(89, 13);
             this.lbViewSelectEmployee.TabIndex = 0;
             this.lbViewSelectEmployee.Text = "Select Employee:";
-            this.lbViewSelectEmployee.Click += new System.EventHandler(this.label1_Click);
             // 
             // tabPage3
             // 
@@ -607,7 +616,7 @@
             // cbModifyCustomer
             // 
             this.cbModifyCustomer.FormattingEnabled = true;
-            this.cbModifyCustomer.Location = new System.Drawing.Point(148, 32);
+            this.cbModifyCustomer.Location = new System.Drawing.Point(151, 6);
             this.cbModifyCustomer.Name = "cbModifyCustomer";
             this.cbModifyCustomer.Size = new System.Drawing.Size(121, 21);
             this.cbModifyCustomer.TabIndex = 1;
@@ -784,10 +793,11 @@
             // cbDeleteCustomer
             // 
             this.cbDeleteCustomer.FormattingEnabled = true;
-            this.cbDeleteCustomer.Location = new System.Drawing.Point(133, 27);
+            this.cbDeleteCustomer.Location = new System.Drawing.Point(419, 28);
             this.cbDeleteCustomer.Name = "cbDeleteCustomer";
             this.cbDeleteCustomer.Size = new System.Drawing.Size(121, 21);
             this.cbDeleteCustomer.TabIndex = 1;
+            this.cbDeleteCustomer.SelectedIndexChanged += new System.EventHandler(this.cbDeleteCustomer_SelectedIndexChanged);
             // 
             // lbDeleteCustomerSelectCustomer
             // 
@@ -827,17 +837,6 @@
             this.lbDeleteEmployeeSelectEmployee.TabIndex = 0;
             this.lbDeleteEmployeeSelectEmployee.Text = "Select Employee:";
             // 
-            // dgvViewCustomer
-            // 
-            this.dgvViewCustomer.AllowUserToAddRows = false;
-            this.dgvViewCustomer.AllowUserToDeleteRows = false;
-            this.dgvViewCustomer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvViewCustomer.Location = new System.Drawing.Point(3, 166);
-            this.dgvViewCustomer.Name = "dgvViewCustomer";
-            this.dgvViewCustomer.ReadOnly = true;
-            this.dgvViewCustomer.Size = new System.Drawing.Size(648, 113);
-            this.dgvViewCustomer.TabIndex = 3;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -857,6 +856,7 @@
             this.tcViewSubmenu.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvViewCustomer)).EndInit();
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -875,7 +875,6 @@
             this.tabPage11.PerformLayout();
             this.tabPage12.ResumeLayout(false);
             this.tabPage12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvViewCustomer)).EndInit();
             this.ResumeLayout(false);
 
         }

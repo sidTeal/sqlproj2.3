@@ -63,7 +63,7 @@ namespace Tisdale_Project_2
             try
             {
                 SqlConnection con = new SqlConnection(connectionString);
-                
+
 
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = con;
@@ -83,7 +83,7 @@ namespace Tisdale_Project_2
 
                 con.Close();
 
-                
+
             }
             catch (SqlException)
             {
@@ -101,12 +101,12 @@ namespace Tisdale_Project_2
             try
             {
                 SqlConnection con = new SqlConnection(connectionString);
-                
+
 
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = con;
                 sqlCmd.CommandType = CommandType.Text;
-                sqlCmd.CommandText = "SELECT * FROM ChristopherFirstAssignment.db_owner.Person WHERE LastName = '" + lastName + "' AND FirstName = '" + firstName +"'";
+                sqlCmd.CommandText = "SELECT * FROM ChristopherFirstAssignment.db_owner.Person WHERE LastName = '" + lastName + "' AND FirstName = '" + firstName + "'";
 
                 con.Open();
 
@@ -119,7 +119,7 @@ namespace Tisdale_Project_2
 
                 con.Close();
 
-                
+
             }
             catch (SqlException)
             {
@@ -161,9 +161,46 @@ namespace Tisdale_Project_2
             {
                 MessageBox.Show("The server could not be reached, please try again.", "Connection Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            }            
+            }
 
             return ++id;
+        }
+
+        public static int getPersonIdNumber(string firstName, string lastName)
+        {
+            int id = 0;
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
+
+
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = con;
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = "SELECT ID FROM ChristopherFirstAssignment.db_owner.Person " +
+                    "WHERE FirstName = '" + firstName + "' AND LastName = '" + lastName +"'";
+
+                con.Open();
+                SqlDataReader reader;
+                reader = sqlCmd.ExecuteReader();
+
+
+                while (reader.Read())
+                {
+                    id = Convert.ToInt16(reader[0]);
+                }
+
+                con.Close();
+
+
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("The server could not be reached, please try again.", "Connection Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
+            return id;
         }
 
         public static void addCustomer(string firstName, string lastName, string address, string dateOfBirth, string favoriteDepartment)
@@ -178,11 +215,11 @@ namespace Tisdale_Project_2
                 SqlCommand sqlCmd = new SqlCommand();
                 sqlCmd.Connection = con;
                 sqlCmd.CommandType = CommandType.Text;
-                sqlCmd.CommandText = String.Format("INSERT INTO [ChristopherFirstAssignment].[db_owner].[Person]" + 
+                sqlCmd.CommandText = String.Format("INSERT INTO [ChristopherFirstAssignment].[db_owner].[Person]" +
                     "([ID],[FirstName],[LastName],[Address],[DateOfBirth])" +
                     "VALUES('{0}','{1}','{2}','{3}','{4}')",
                     id, firstName, lastName, address, dateOfBirth);
-                
+
                 con.Open();
                 sqlCmd.ExecuteNonQuery();
                 con.Close();
@@ -206,22 +243,42 @@ namespace Tisdale_Project_2
 
         }
 
-        static string AddCustomerQueryString()
+        public static void deleteCustomer(int personID)
         {
-            string addCustomerStringQuery = "";
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
 
 
-            return addCustomerStringQuery;
+                SqlCommand sqlCmd = new SqlCommand();
+                sqlCmd.Connection = con;
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandText = String.Format("DELETE FROM [ChristopherFirstAssignment].[db_owner].[Person]" +
+                     "WHERE ID = '" + personID + "'");
+
+                con.Open();
+                sqlCmd.ExecuteNonQuery();
+                con.Close();
+
+                sqlCmd.CommandText = String.Format("DELETE FROM [ChristopherFirstAssignment].[db_owner].[Customer]" +
+                    "WHERE ID = '" + personID +"'");
+
+                con.Open();
+                sqlCmd.ExecuteNonQuery();
+                con.Close();
+
+
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("The server could not be reached, please try again.", "Connection Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+
         }
-
-        static string AddEmployeeQueryString()
-        {
-            string addEmployeeStringQuery = "";
-
-
-            return addEmployeeStringQuery;
-        }
-
-
     }
+
+
 }
+
+

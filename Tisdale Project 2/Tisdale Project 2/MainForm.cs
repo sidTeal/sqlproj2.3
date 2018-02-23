@@ -16,25 +16,34 @@ namespace Tisdale_Project_2
         public MainForm()
         {
             InitializeComponent();
+
+            updateComboBoxes();
+
+        }
+
+        private void updateComboBoxes()
+        {
             string[] employeeArray = DatabaseManager.getEmployeeNames();
             cbViewEmployee.DataSource = employeeArray;
+            cbViewEmployee.SelectedIndex = 0;
+
             cbDeleteEmployee.DataSource = employeeArray;
+            cbDeleteEmployee.SelectedIndex = 0;
 
-            string[] customerArray = DatabaseManager.getCustomerNames();
-            cbViewCustomer.DataSource = customerArray;
-            cbDeleteCustomer.DataSource = customerArray;
+            string[] customerArrayView = DatabaseManager.getCustomerNames();
+            string[] customerArrayDelete = new string[customerArrayView.Length];
+            customerArrayView.CopyTo(customerArrayDelete, 0);
+            string[] customerArrayModify = new string[customerArrayView.Length];
+            customerArrayView.CopyTo(customerArrayModify, 0);
 
-            
-        }
-        
-        private void lbEmployeeDateOfBirth_Click(object sender, EventArgs e)
-        {
+            cbViewCustomer.DataSource = customerArrayView;
+            cbViewCustomer.SelectedIndex = 0;
 
-        }
+            cbDeleteCustomer.DataSource = customerArrayDelete;
+            cbDeleteCustomer.SelectedIndex = 0;
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            cbModifyCustomer.DataSource = customerArrayModify;
+            cbModifyCustomer.SelectedIndex = 0;
         }
 
         private void pnlModifyCustomer_Paint(object sender, PaintEventArgs e)
@@ -50,8 +59,11 @@ namespace Tisdale_Project_2
 
             try
             {
-                
-                temp = new Customer(tbCustomerFirstName.Text, tbCustomerLastName.Text, tbCustomerAddress.Text, dtpCustomerDateOfBirth.Value, tbCustomerFavoriteDepartment.Text);
+                string firstName = tbCustomerFirstName.Text.Replace(" ", "");
+                string lastName = tbCustomerLastName.Text.Replace(" ", "");
+
+
+                temp = new Customer(firstName, lastName, tbCustomerAddress.Text, dtpCustomerDateOfBirth.Value, tbCustomerFavoriteDepartment.Text);
                 dateString = dtpCustomerDateOfBirth.Value.ToString("yyyy-MM-dd");
                 legalCustomerValues = true;
             }
@@ -64,35 +76,69 @@ namespace Tisdale_Project_2
             {
                 Console.WriteLine(temp.FirstName);
                 DatabaseManager.addCustomer(temp.FirstName, temp.LastName, temp.Address, dateString, temp.FavoriteDepartment);
-                //MessageBox.Show("Customer Added", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Customer Added", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                updateComboBoxes();
+
+                tbCustomerFirstName.Text = "";
+                tbCustomerLastName.Text = "";
+                tbCustomerAddress.Text = "";
+                dtpCustomerDateOfBirth.Value = DateTime.Now;
+                tbCustomerFavoriteDepartment.Text = "";
             }
 
+            string[] customerArray = DatabaseManager.getCustomerNames();
+
+        }
+
+
+        private void cbViewEmployee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void cbDeleteCustomer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string deleteSelection = cbDeleteCustomer.Text;
+
+            if (deleteSelection != "")
+            {
+                string[] name = new string[1];
+
+                deleteSelection = deleteSelection.Replace(",", "");
+                name = deleteSelection.Split(' ');
+                //name[0] = last name
+                //name[1] = first name
+
+                int personID = DatabaseManager.getPersonIdNumber(name[1], name[0]);
+                DatabaseManager.deleteCustomer(personID);
+                updateComboBoxes();
+                MessageBox.Show("Customer deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
         }
 
         private void cbViewCustomer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selection = cbViewCustomer.Text;
-            if (selection != "")
+
+            string viewSelection = cbViewCustomer.Text;
+            if (viewSelection != "")
             {
                 string[] name = new string[1];
 
-                selection = selection.Replace(",", "");
-                name = selection.Split(' ');
+                viewSelection = viewSelection.Replace(",", "");
+                name = viewSelection.Split(' ');
                 //name[0] = last name
                 //name[1] = first name
 
                 dgvViewCustomer.DataSource = DatabaseManager.viewCustomer(name[0], name[1]);
-                
+                updateComboBoxes();
             }
 
 
-        }
-
-        private void cbViewEmployee_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
 
         }
-
     }
 }
